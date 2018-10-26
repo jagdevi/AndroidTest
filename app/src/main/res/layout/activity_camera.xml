@@ -79,6 +79,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:textColorHint="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -90,7 +91,8 @@
                     android:hint="@string/object_id"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@android:color/black"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -102,6 +104,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:textColorHint="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInput_ObjectId">
@@ -112,8 +115,12 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/geotag"
                     android:imeOptions="actionDone"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
                     android:inputType="number"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@android:color/black"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -125,6 +132,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:textColorHint="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInput_geoTag">
@@ -136,7 +144,8 @@
                     android:hint="@string/feature_count"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@android:color/black"
+                    />
             </android.support.design.widget.TextInputLayout>
 
             <Button

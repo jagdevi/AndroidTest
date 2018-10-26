@@ -4,4 +4,5 @@
     <string name="feature_count">Feature Count</string>
     <string name="geotag">GeoTag</string>
     <string name="object_id">Object Id</string>
+    <string name="please_wait">Please wait</string>
 </resources>
