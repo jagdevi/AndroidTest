@@ -11,11 +11,12 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.File
 import java.io.FileOutputStream
 
-class CameraActivity : AppCompatActivity() {
+class CameraActivity : AppCompatActivity(), View.OnClickListener {
 
     private val imageCaptureResult = 1
 
@@ -24,9 +25,9 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
 
         checkPermissionGranted()
-        btn_capture_image.setOnClickListener{
-            takeImageFromCamera()
-        }
+        btn_capture_image.setOnClickListener(this)
+        btn_next.setOnClickListener(this)
+
     }
 
     private fun checkPermissionGranted() : Boolean{
@@ -58,6 +59,10 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * function to save captured image to memory card
+     * @param bitmap as Image bitmap
+     */
     private fun saveImage(bitmap: Bitmap) {
         val rootDir = Environment.getExternalStorageDirectory().toString()
         val imageDir = File(rootDir+"/capturedImage/")
@@ -87,6 +92,20 @@ class CameraActivity : AppCompatActivity() {
                 takeImageFromCamera()
             }
         }
+
+    }
+
+    override fun onClick(view: View?) {
+        when(view?.id){
+            R.id.btn_capture_image ->
+                takeImageFromCamera()
+
+            R.id.btn_next ->
+                validateInputFields()
+        }
+    }
+
+    private fun validateInputFields() {
 
     }
 }

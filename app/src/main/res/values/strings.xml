@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AndroidTest</string>
     <string name="capture_image">Capture Image</string>
+    <string name="feature_count">Feature Count</string>
+    <string name="geotag">GeoTag</string>
+    <string name="object_id">Object Id</string>
 </resources>
