@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -15,7 +16,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import com.mapbox.android.core.location.LocationEnginePriority
 import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.android.core.permissions.PermissionsManager
@@ -27,16 +27,19 @@ import java.text.DecimalFormat
 
 class CameraActivity : AppCompatActivity(), View.OnClickListener {
 
-    //MapBox token
-    private val mapAccessToken = "pk.eyJ1IjoiamFnZGV2aSIsImEiOiJjam5wa2RxZWYxdGRkM2twa285dDU3MmN2In0.Knj8iSlFMJdoTDXZc8dc-g"
     private val PERMISSION_REQUEST_CODE = 101
     private val imageCaptureResult = 1
     private lateinit var progressDialog: AlertDialog
+    private var location: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
+        initialization()
+    }
+
+    private fun initialization() {
         checkPermissionGranted()
         progressDialog = showCustomProgressDialog(this)
         btn_capture_image.setOnClickListener(this)
@@ -137,7 +140,9 @@ class CameraActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_next -> {
                 if (validateInputFields())
-                    Log.d("dff","sdf")
+                    startActivity(Intent(this,MapActivity::class.java)
+                            .putExtra(Utils.latitude,location?.latitude)
+                            .putExtra(Utils.longitude, location?.longitude))
                 }
 
             R.id.editText_geoTag ->
@@ -154,9 +159,9 @@ class CameraActivity : AppCompatActivity(), View.OnClickListener {
         locationEngine.activate()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            val location = locationEngine.lastLocation
-            val latitude = DecimalFormat("##.####").format(location.latitude)
-            val longitude = DecimalFormat("##.####").format(location.longitude)
+            location = locationEngine.lastLocation
+            val latitude = DecimalFormat("##.####").format(location?.latitude)
+            val longitude = DecimalFormat("##.####").format(location?.longitude)
             editText_geoTag.setText("$latitude , $longitude")
             dismissProgressDialog()
         }
@@ -164,7 +169,7 @@ class CameraActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initializeMapBox(){
         progressDialog?.show()
-        Mapbox.getInstance(this,mapAccessToken)
+        Mapbox.getInstance(this,Utils.mapAccessToken)
         if(!checkPermissionGranted())
             return
 
