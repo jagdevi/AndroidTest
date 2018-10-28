@@ -1,3 +1,4 @@
 package com.test.androidtest
 
-data class GeoData(val objectId: Int, val latitude: Double, val longitude: Double, val featureCount: Int)
+data class ImageData(val Id: Int, val ImageBlob: String)
+data class PolygonData(val ObjectId: Int, val PolyPoints: String)

@@ -1,20 +1,16 @@
 package com.test.androidtest
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.util.Log
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.Toast
-import com.mapbox.android.core.location.LocationEnginePriority
-import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.annotations.PolygonOptions
@@ -22,6 +18,8 @@ import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import kotlinx.android.synthetic.main.activity_map.*
+import java.util.*
+import java.util.stream.Collectors
 
 
 class MapActivity : AppCompatActivity() {
@@ -43,7 +41,6 @@ class MapActivity : AppCompatActivity() {
         Mapbox.getInstance(this, Utils.mapAccessToken)
         mapView.onCreate(savedInstanceState)
         initializeMapBox()
-        getPolygonLandId()
         onButtonClickListener()
     }
 
@@ -108,11 +105,27 @@ class MapActivity : AppCompatActivity() {
             .setTitle(getString(R.string.savePlot))
                 .setEditText(editText)
 
-        alertBuilder.setPositiveButton(getString(R.string.save), { dialog, which ->
+        alertBuilder.setPositiveButton(getString(R.string.save)) { dialog, which ->
             dialog.dismiss()
-        })
+
+            val id = editText.text.trim().toString()
+            val polyStringData = convertArrayToString()
+            val polyData = PolygonData(id.toInt(),polyStringData)
+            val isSaveData = DatabaseHandler(this).addPolyData(polyData)
+            if(isSaveData)
+                Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show()
+
+        }
 
         alertBuilder.show()
+    }
+
+    private fun convertArrayToString() : String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            polygon.stream().map{ it.toString()}.collect(Collectors.joining(", "))
+        } else {
+            TextUtils.join(", ",polygon)
+        }
     }
 
     /**

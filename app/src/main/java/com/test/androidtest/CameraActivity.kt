@@ -13,14 +13,17 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import com.mapbox.android.core.location.LocationEnginePriority
 import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.mapboxsdk.Mapbox
 import kotlinx.android.synthetic.main.activity_camera.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.text.DecimalFormat
@@ -37,6 +40,7 @@ class CameraActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_camera)
 
         initialization()
+
     }
 
     private fun initialization() {
@@ -103,7 +107,7 @@ class CameraActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun saveImage(bitmap: Bitmap) {
         val rootDir = Environment.getExternalStorageDirectory().toString()
-        val imageDir = File(rootDir+"/capturedImage/")
+        val imageDir = File("$rootDir/capturedImage/")
         if(!imageDir.exists())
             imageDir.mkdirs()
 
@@ -116,11 +120,27 @@ class CameraActivity : AppCompatActivity(), View.OnClickListener {
             Log.d("ImageCapture","ImageCaptureSuccess$saveFile")
             outStream.flush()
             outStream.close()
+            saveImageToSQLiteDB(bitmap)
         }catch (e: Exception)
         {
             Log.d("ImageCapture","ImageCaptureFail")
             e.printStackTrace()
         }
+    }
+
+    private fun saveImageToSQLiteDB(bitmap: Bitmap) {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val imageInByte = byteArrayOutputStream.toByteArray()
+        val strImage = Base64.encodeToString(imageInByte, Base64.DEFAULT)
+
+        val db = DatabaseHandler(this)
+        val imageData  = ImageData(1,strImage)
+        if(db.addImageData(imageData))
+            Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show()
+
+        db.getStorageDB()
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
