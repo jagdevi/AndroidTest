@@ -43,6 +43,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -52,6 +53,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:fillViewport="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,8 +93,7 @@
                     android:hint="@string/object_id"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:textColor="@android:color/black"
-                    />
+                    android:textColor="@android:color/black" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -113,14 +114,13 @@
                     android:id="@+id/editText_geoTag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/geotag"
-                    android:imeOptions="actionDone"
                     android:clickable="false"
                     android:editable="false"
                     android:focusable="false"
+                    android:hint="@string/geotag"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:textColor="@android:color/black"
-                    />
+                    android:textColor="@android:color/black" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -144,8 +144,7 @@
                     android:hint="@string/feature_count"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:textColor="@android:color/black"
-                    />
+                    android:textColor="@android:color/black" />
             </android.support.design.widget.TextInputLayout>
 
             <Button

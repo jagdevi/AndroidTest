@@ -96,6 +96,7 @@ class CameraActivity : AppCompatActivity(), View.OnClickListener {
             if (data != null) {
                 val bitmap = data.extras?.get("data") as Bitmap
                 iv_show_image.setImageBitmap(bitmap)
+                scrollView.visibility = View.VISIBLE
                 saveImage(bitmap)
             }
         }
