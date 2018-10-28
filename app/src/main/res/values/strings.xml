@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">AndroidTest</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="feature_count">Feature Count</string>
+    <string name="geotag">GeoTag</string>
+    <string name="object_id">Object Id</string>
+    <string name="please_wait">Please wait</string>
+    <string name="polyError">Select min 3 points of polygon</string>
+    <string name="saveError">Draw polygon first</string>
+    <string name="enterId">Enter id</string>
+    <string name="savePlot">Save Plot</string>
+    <string name="save">SAVE</string>
 </resources>
